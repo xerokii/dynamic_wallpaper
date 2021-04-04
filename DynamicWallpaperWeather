@@ -1,0 +1,33 @@
+import json
+import requests
+from datetime import datetime
+import os
+
+#Getting Json weather
+url = 'https://www.el-tiempo.net/api/json/v2/provincias/28/municipios/28079'
+req = requests.get(url)
+obj = req.json()
+#Datetime
+now = datetime.now()
+current_time = now.strftime("%H%M")
+nightfall = 2000
+#Wallpapers variables
+sunny = 'sunny.jpg'
+rain = 'rain.jpg'
+night = 'night.jpg'
+#Change it for your wallpaper folder
+folder = 'C:/Users/eduvi/Pictures/Wallpapers/FireWatch/'
+#Gettting value from json
+tiempo = obj["stateSky"]["description"]
+
+if (tiempo == 'Despejado'):
+    wallpaper = folder + sunny
+elif (int(current_time) > nightfall):
+    wallpaper = folder + night
+else:
+    print('El tiempo está ' + tiempo)
+
+#Execute PS to set wallpaper a refresh 
+#TEST:wallpaper = "'C:/Users/eduvi/Pictures/Wallpapers/FireWatch/sunset.jpg'"
+os.system("powershell.exe Set-ItemProperty -path 'HKCU:\Control Panel\Desktop\' -name wallpaper -value "+wallpaper)
+os.system("powershell.exe RUNDLL32.EXE USER32.DLL,UpdatePerUserSystemParameters ,1 ,True")
