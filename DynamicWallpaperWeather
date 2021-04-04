@@ -10,19 +10,23 @@ obj = req.json()
 #Datetime
 now = datetime.now()
 current_time = now.strftime("%H%M")
-nightfall = 2000
+nightfall_time = 1900
+night_time = 2100
 #Wallpapers variables
 sunny = 'sunny.jpg'
 rain = 'rain.jpg'
-night = 'night.jpg'
+nightfall = 'night.jpg'
+night = 'nocolornight.png'
 #Change it for your wallpaper folder
 folder = 'C:/Users/eduvi/Pictures/Wallpapers/FireWatch/'
 #Gettting value from json
 tiempo = obj["stateSky"]["description"]
-
+#Ahora mismo si se cumple la primera condición no consulta el resto. REVISAR ESTO
 if (tiempo == 'Despejado'):
     wallpaper = folder + sunny
-elif (int(current_time) > nightfall):
+elif (int(current_time) > nightfall_time):
+    wallpaper = folder + nightfall
+elif (int(current_time) > night_time):
     wallpaper = folder + night
 else:
     print('El tiempo está ' + tiempo)
